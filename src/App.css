@@ -35,5 +35,17 @@
 }
 
 .black {
-  background-color: midnightblue;
+  background-color: blueviolet;
+}
+
+.selected {
+  background-color: lightcoral;
+}
+
+/*класс available доступна ячейка для хода или нет*/
+.available {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: #22c022;
 }

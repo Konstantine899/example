@@ -26,6 +26,28 @@ export class Board {
     }
   }
 
+  public getCopyBoard(): Board {
+    const newBoard = new Board();
+    newBoard.cells = this.cells; // переносим текущие ячейки в новый объект
+    return newBoard;
+  }
+
+  //логика подсветки ячеек на которые можно походить
+  public highlightCells(selectedCell: Cell | null) {
+    for (let i = 0; i < this.cells.length; i++) {
+      const row = this.cells[i];
+      for (let j = 0; j < row.length; j++) {
+        const target = row[j]; // по индексу получаем ячейку, target потому что туда потенциально может походить фигура
+        //изменяем поле available что бы определить доступна она для хода или нет.
+        //Мы получаем фигуру, на выбранной ячейке и вызываем метод canMove() возвражает true если фигура может походить
+        // В качестве ячейки на которую мы хотим походить в canMove мы передаем target
+        //ВНИКНИ ЭТО ВАЖНЫЙ МОМЕНТ!!!!
+        // !! Преобразуем к Boolean
+        target.available = !!selectedCell?.figure?.canMove(target);
+      }
+    }
+  }
+
   //для того что бы было удобно точечно расставлять фигуры на ячейки
   public getCell(x: number, y: number) {
     return this.cells[y][x]; // обратите внимание что y координата идет первой

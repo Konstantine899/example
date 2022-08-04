@@ -26,4 +26,14 @@ export class Cell {
     this.available = false;
     this.id = Math.random();
   }
+
+  //Выбор фигуры
+  moveFigure(target: Cell) {
+    //target это ячейка на которую мы хотим фигуру переместить
+    if (this.figure && this.figure?.canMove(target)) {
+      this.figure.moveFigure(target);
+      target.figure = this.figure; // перемещаем фигуру
+      this.figure = null; // удаляем фигуру
+    }
+  }
 }
