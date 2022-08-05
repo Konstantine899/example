@@ -21,6 +21,11 @@ export class Figure {
 
   //может двигаться
   canMove(target: Cell): boolean {
+    //Условие на проверку цвета. Свои фигуры сбивать нельзя
+    // Если цвет выбранной фигуры и цвет и цвет целевой фигуры совпадают, то походить нельзя
+    if (target.figure?.color === this.color) return false;
+    //Проверка на короля. Короля сбивать нельзя. Она не должна подсвечиваться при варианте хода
+    if (target.figure?.name === FigureNames.KING) return false;
     return true;
   }
 
