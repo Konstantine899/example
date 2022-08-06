@@ -8,8 +8,8 @@ export class Cell {
   readonly color: Colors;
   figure: Figure | null;
   board: Board;
-  available: boolean; // true - фигура может ходит на эту ячейку, false - нет
-  id: number; // для рект ключей
+  available: boolean; // true - фигура может ходить на эту ячейку, false - нет
+  id: number; // для React ключей
 
   constructor(
     board: Board,
@@ -74,7 +74,44 @@ export class Cell {
     }
     return true;
   }
+  //Диагональ самая сложная
   isEmptyDiagonal(target: Cell): boolean {
+    /*Разница между диагональными клетками всегда равна
+     * 1.1
+     * 2.2
+     * 3.3
+     * Смотри систему координат доски Board.ts
+     * В данном примере между координатами, и по x и по y, разница всегда равна 1
+     * Таким образом по модулю всегда разница будет одинаковой как по x, так и по y.
+     * С помощью функции Math.abs() мы берем модуль.
+     * Модуль важен поскольку двигаться мы можем в разных направлениях
+     * */
+    const absX = Math.abs(target.x - this.x);
+    const absY = Math.abs(target.y - this.y);
+    if (absY !== absX) return false; // Если не совпадает, то это не диагональ
+    // Проверка диагонали на пустоту
+    /* Если координата по y текущей проверки меньше чем координата точки в которую мы хотим попасть,
+     то присваиваем 1, в обратном случае -1 */
+    const directionY = this.y < target.y ? 1 : -1;
+    const directionX = this.x < target.x ? 1 : -1;
+    //Теперь на полученное значение диагонали буду умножать
+    //Теперь двигаюсь в цикле на столько ячеек на сколько получил в модуле разницы
+    for (let i = 1; i < absY; i++) {
+      if (
+        !this.board
+          .getCell(this.x + directionX * i, this.y + directionY * i)
+          .isEmpty()
+      ) {
+        /* this.x + diractionX * i
+         * Мы к текущей координате прибавляем произведение направления
+         * directionY умноженное на index
+         * Таким образом мы получаем направление движения
+         * Если в отрицательную сторону, то мы * -1(index),
+         * в обратном случае * +1.
+         */
+        return false;
+      }
+    }
     return true;
   }
 }
