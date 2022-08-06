@@ -14,6 +14,8 @@ export class Rook extends Figure {
   //логика движения фигуры
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false; // Проверка на условия родительского canMove
-    return true;
+    if (this.cell.isEmptyVertical(target)) return true; // ладья двигается только по горизонтали и вертикали
+    if (this.cell.isEmptyHorizontal(target)) return true;
+    return false;
   }
 }
