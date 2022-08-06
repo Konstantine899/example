@@ -16,6 +16,7 @@ export class Bishop extends Figure {
   //логика движения фигуры
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false; // Проверка на условия родительского canMove
-    return true;
+    if (this.cell.isEmptyDiagonal(target)) return true; //движение слона только по диагонали
+    return false;
   }
 }
