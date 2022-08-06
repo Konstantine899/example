@@ -11,8 +11,10 @@ export class Queen extends Figure {
     this.logo = color === Colors.BLACK ? blackLogo : whiteLogo;
     this.name = FigureNames.QUEEN;
   }
+  //логика движения фигуры
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false; // Проверка на условия родительского canMove
-    return true;
+    if (this.cell.isEmptyVertical(target)) return true; // если диагональ пустая
+    return false;
   }
 }
