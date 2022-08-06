@@ -15,6 +15,7 @@ export class Queen extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false; // Проверка на условия родительского canMove
     if (this.cell.isEmptyVertical(target)) return true; // если диагональ пустая
+    if (this.cell.isEmptyHorizontal(target)) return true; // если горизонталь пустая
     return false;
   }
 }
