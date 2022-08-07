@@ -3,7 +3,12 @@ import { BoardProps } from "./BoardProps";
 import CellComponent from "../Cell/CellComponent";
 import { Cell } from "../Cell/Cell";
 
-const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
+const BoardComponent: FC<BoardProps> = ({
+  board,
+  setBoard,
+  currentPlayer,
+  swapPlayer,
+}) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
   function click(cell: Cell) {
@@ -16,9 +21,12 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
       //И эта ячейка не равняется той на которую мы хотим нажать
       //И при этом canMove возвращает true т.е. на эту ячейка мы можем походить
       selectedCell.moveFigure(cell);
+      swapPlayer(); // передача хода другому игроку
       setSelectedCell(null);
     } else {
-      setSelectedCell(cell);
+      if (cell.figure?.color === currentPlayer?.color) {
+        setSelectedCell(cell); //устанавливаем выбранную ячейку
+      }
     }
   }
 
@@ -35,27 +43,30 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
   //Обновление состояния
   function updateBoard() {
     const newBoard = board.getCopyBoard(); // копия доски, новая ссылка,
-    setBoard(newBoard); // перересовываем компонент
+    setBoard(newBoard); // перерисовываем компонент
   }
 
   return (
-    <div className="board">
-      {/*Проходимся по двумерному массиву. Использую индекс потому что сами строки у нас измнятся не будут. для этого я использовал readonly*/}
-      {board.cells.map((row, index) => (
-        <React.Fragment key={index}>
-          {row.map((cell) => (
-            <CellComponent
-              click={click}
-              cell={cell}
-              key={cell.id}
-              selected={
-                //Усливие для выбора ячейки, если координаты совпадают
-                cell.x === selectedCell?.x && cell.y === selectedCell?.y
-              }
-            />
-          ))}
-        </React.Fragment>
-      ))}
+    <div>
+      <h3>Текущий игрок: {currentPlayer?.color}</h3>
+      <div className="board">
+        {/*Проходимся по двумерному массиву. Использую индекс потому что сами строки у нас измнятся не будут. для этого я использовал readonly*/}
+        {board.cells.map((row, index) => (
+          <React.Fragment key={index}>
+            {row.map((cell) => (
+              <CellComponent
+                click={click}
+                cell={cell}
+                key={cell.id}
+                selected={
+                  //Усливие для выбора ячейки, если координаты совпадают
+                  cell.x === selectedCell?.x && cell.y === selectedCell?.y
+                }
+              />
+            ))}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };
