@@ -92,19 +92,17 @@ export class Cell {
     // Проверка диагонали на пустоту
     /* Если координата по y текущей проверки меньше чем координата точки в которую мы хотим попасть,
      то присваиваем 1, в обратном случае -1 */
-    const directionY = this.y < target.y ? 1 : -1;
-    const directionX = this.x < target.x ? 1 : -1;
+    const deltaY = this.y < target.y ? 1 : -1;
+    const deltaX = this.x < target.x ? 1 : -1;
     //Теперь на полученное значение диагонали буду умножать
     //Теперь двигаюсь в цикле на столько ячеек на сколько получил в модуле разницы
     for (let i = 1; i < absY; i++) {
       if (
-        !this.board
-          .getCell(this.x + directionX * i, this.y + directionY * i)
-          .isEmpty()
+        !this.board.getCell(this.x + deltaX * i, this.y + deltaY * i).isEmpty()
       ) {
-        /* this.x + diractionX * i
+        /* this.x + deltaX * i
          * Мы к текущей координате прибавляем произведение направления
-         * directionY умноженное на index
+         * deltaY умноженное на index
          * Таким образом мы получаем направление движения
          * Если в отрицательную сторону, то мы * -1(index),
          * в обратном случае * +1.
