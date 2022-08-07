@@ -27,6 +27,12 @@ export class Knight extends Figure {
   //логика движения фигуры
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false; // Проверка на условия родительского canMove
-    return true;
+    //Расчет направления движения
+    const deltaX = Math.abs(this.cell.x - target.x);
+    const deltaY = Math.abs(this.cell.y - target.y);
+    //Теперь проверяем смещение
+    // по вертикали x на 1 а у на 2
+    // по вертикали x на 2 а у на 1
+    return (deltaX === 1 && deltaY === 2) || (deltaX === 2 && deltaY === 1);
   }
 }

@@ -45,8 +45,15 @@ export class Cell {
   }
 
   // Проверка ячейки на пустоту
-  isEmpty() {
+  isEmpty(): boolean {
     if (this.figure === null) return true; // Если ячейка пустая
+    return false;
+  }
+  //Проверка ячейки на присутствие в нем врага
+  isEnemy(target: Cell): boolean {
+    if (target.figure) {
+      return this.figure?.color !== target.figure.color; //сравниваю цвета
+    }
     return false;
   }
   //Методы проверки на пустоту горизонтали, вертикали, диагонали
@@ -89,7 +96,7 @@ export class Cell {
     const absX = Math.abs(target.x - this.x);
     const absY = Math.abs(target.y - this.y);
     if (absY !== absX) return false; // Если не совпадает, то это не диагональ
-    // Проверка диагонали на пустоту
+    // Направление движения
     /* Если координата по y текущей проверки меньше чем координата точки в которую мы хотим попасть,
      то присваиваем 1, в обратном случае -1 */
     const deltaY = this.y < target.y ? 1 : -1;
