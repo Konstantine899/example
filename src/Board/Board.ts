@@ -6,9 +6,12 @@ import { Knight } from "../Figures/Knight";
 import { Queen } from "../Figures/Queen";
 import { Bishop } from "../Figures/Bishop";
 import { Rook } from "../Figures/Rook";
+import { Figure } from "../Figures/Figure";
 
 export class Board {
   cells: Cell[][] = []; // доска содержит ячейки, ячейки это двумерный массив: строки в которых содержаться столбцы (Матрица)
+  lostBlackFigures: Figure[] = []; //Сбитые черные фигуры
+  lostWhiteFigures: Figure[] = []; //Сбитые белые фигуры
 
   //Инициализация ячеек
   public initCells() {
@@ -29,6 +32,8 @@ export class Board {
   public getCopyBoard(): Board {
     const newBoard = new Board();
     newBoard.cells = this.cells; // переносим текущие ячейки в новый объект
+    newBoard.lostWhiteFigures = this.lostWhiteFigures; // переносим сбитые фигуры на новую доску
+    newBoard.lostBlackFigures = this.lostBlackFigures; // переносим сбитые фигуры на новую доску
     return newBoard;
   }
 

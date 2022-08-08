@@ -34,11 +34,25 @@ export class Cell {
     this.figure = figure; //для текущей ячейки меняю фигуру
     this.figure.cell = this; // и у ячейки на которой стоит фигура меняю ссылку
   }
+
+  //Метод помещения сбитых фигур в массив сбитых фигур
+  //Этот метод лучше всего было реализовать в самом классе board по логике он больше подходит ему
+  addLostFigure(figure: Figure) {
+    figure.color === Colors.BLACK
+      ? this.board.lostBlackFigures.push(figure)
+      : this.board.lostWhiteFigures.push(figure);
+  }
+
   //Выбор фигуры
   moveFigure(target: Cell) {
     //target это ячейка на которую мы хотим фигуру переместить
     if (this.figure && this.figure?.canMove(target)) {
       this.figure.moveFigure(target);
+      //Проверяю что если на этой ячейке стояла фигура, то заношу ее в массив сбитых фигур
+      if (target.figure) {
+        this.addLostFigure(target.figure);
+      }
+
       target.setFigure(this.figure); //перемещаю фигуру на целевую ячейку
       this.figure = null; // удаляем фигуру с текущей позиции иначе она будет копироваться
     }
